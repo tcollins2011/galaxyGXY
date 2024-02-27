@@ -2,7 +2,7 @@
     <header class="masthead">
       <div class="logo-container">
         <!-- Assuming you have a logo image in your assets folder -->
-        <img src="@/assets/logo_tracom.png" alt="Logo" class="logo" />
+        <img src="@/assets/galaxy_logo_white.png" alt="Logo" class="logo" />
       </div>
       <nav class="nav-links">
         <ul>
@@ -43,7 +43,7 @@
   }
   
   .logo {
-    height: 4vh; /* Adjust based on your logo's size */
+    height: 6vh; /* Adjust based on your logo's size */
   }
   
   .nav-links ul {
