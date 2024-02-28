@@ -26,8 +26,14 @@
     "morgan": "^1.10.0",
     "openai": "^4.27.0",
     "pdfjs-dist": "^4.0.379",
+    "rehype-stringify": "^10.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.0",
+    "remark-stringify": "^11.0.0",
     "tesseract.js": "^5.0.4",
-    "tiktoken": "^1.0.13"
+    "tiktoken": "^1.0.13",
+    "unified": "^11.0.4",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

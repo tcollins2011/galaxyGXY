@@ -14,7 +14,7 @@ export const generateText = async (req, res) => {
 
     const instructionMessage = {
       role: "system",
-      content: "You are a helpful AI assistant who is very knowledgable about the Galaxy Project. If you don't know the answer, just say you don't know. DO NOT try to make up an answer."
+      content: "You are a helpful AI assistant who is very knowledgable about the Galaxy Project. If you don't know the answer, just say that you don't know.. DO NOT try to make up an answer."
     };
 
     try {
