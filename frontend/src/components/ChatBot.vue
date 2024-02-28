@@ -26,8 +26,6 @@
 </template>
   
 <script>
-  // import estimateCost from '@/utils/costEstimator';
-
   export default {
     name: 'UserInputDisplay',
     props: ['modelSettings'],
@@ -63,9 +61,9 @@
               const { done, value } = await reader.read();
               if (done) {
                 const tokenInfo = await this.countTokens(this.userInput, this.messages[botMessageIndex].text, this.modelSettings)
-                console.log(tokenInfo.inputTokens)
                 this.$emit('apiResponse', {
-                  // Emit response here
+                  inputTokens: tokenInfo.inputTokens,
+                  outputTokens: tokenInfo.outputTokens
                 });
                 return;
               }
