@@ -31,20 +31,19 @@
     props: ['modelSettings'],
     data() {
       return {
-        messages: [], // Holds Messages 
-        userInput: '', // To capture user input
+        messages: [], 
+        userInput: '', 
       };
     },
     methods: {
       async submitText() {
         if (this.userInput.trim()) {
-          // Add the user message to the display
+          
           this.addMessage(this.userInput, 'You');
 
           // Initialize an empty message for the bot response
           const botMessageIndex = this.addMessage('', 'ChatGXY');
 
-          // Call the backend API
           try {
             const response = await fetch('http://localhost:3000/openai/generate-text', {
               method: 'POST',
@@ -67,25 +66,19 @@
                 });
                 return;
               }
-              // Convert the Uint8Array to a string and append to the total response
               const textChunk = new TextDecoder().decode(value);
 
-              // Update the bot's message with the new chunk
               this.messages[botMessageIndex].text += textChunk;
 
-              // Read the next chunk
               await read();
 
             };
-
-            // Start reading the stream
             await read();
-          
+
           } catch (error) {
             console.error('Error calling the backend API:', error);
             this.addMessage('Sorry, something went wrong.', 'Bot');
           }
-
           this.userInput = '';
         }
       },
