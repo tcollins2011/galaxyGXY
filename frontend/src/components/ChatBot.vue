@@ -14,7 +14,7 @@
           <textarea
             ref="userInput"
             v-model="userInput"
-            placeholder="Message TracomGPT..."
+            placeholder="Message ChatGXY..."
             class="user-input"
             @keyup.enter.prevent="submitText"
             @input="autoExpand"
@@ -44,11 +44,11 @@
           this.addMessage(this.userInput, 'You');
 
           // Initialize an empty message for the bot response
-          const botMessageIndex = this.addMessage('', 'TracomGPT');
+          const botMessageIndex = this.addMessage('', 'ChatGXY');
 
           // Call the backend API
           try {
-            const response = await fetch('http://localhost:3000/api/openai/generate-text', {
+            const response = await fetch('http://localhost:3000/openai/generate-text', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -57,32 +57,32 @@
             });
 
             const reader = response.body.getReader();
-            // let total = '';
 
             // Function to read and process each chunk of data
             const read = async () => {
               const { done, value } = await reader.read();
               if (done) {
+                const tokenInfo = await this.countTokens(this.userInput, this.messages[botMessageIndex].text, this.modelSettings)
+                console.log(tokenInfo.inputTokens)
                 this.$emit('apiResponse', {
-                  // You might need a different approach to get these details,
-                  // as they won't be available until the entire response is received
+                  // Emit response here
                 });
                 return;
               }
-
               // Convert the Uint8Array to a string and append to the total response
               const textChunk = new TextDecoder().decode(value);
-              // total += textChunk;
 
               // Update the bot's message with the new chunk
               this.messages[botMessageIndex].text += textChunk;
 
               // Read the next chunk
-              read();
+              await read();
+
             };
 
             // Start reading the stream
-            read();
+            await read();
+          
           } catch (error) {
             console.error('Error calling the backend API:', error);
             this.addMessage('Sorry, something went wrong.', 'Bot');
@@ -90,6 +90,24 @@
 
           this.userInput = '';
         }
+      },
+      async countTokens(inputText, outputText, modelSettings) {
+        try{
+          const response = await fetch('http://localhost:3000/openai/token-counts/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ input: inputText, output: outputText, settings: modelSettings }),
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json()
+          return data
+        } catch (error) {
+            console.log(error)
+        } 
       },
       addMessage(text, sender) {
         const message = {
